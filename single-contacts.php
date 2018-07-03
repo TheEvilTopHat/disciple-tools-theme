@@ -273,6 +273,56 @@ declare( strict_types=1 );
                                         </div>
                                     </div>
 
+                                    <!-- custom sections -->
+                                    <?php $custom_sections = dt_get_option( 'dt_site_custom_lists' );
+                                    $custom_sections = $custom_sections["custom_dropdown_contact_progress"];
+                                    foreach ( $custom_sections as $key => $value ) :
+                                        if ( isset($value['one']) ) :?>
+                                            <div class="custom_progress">
+                                                <!-- drop down section -->
+                                                <div class="section-subheader">
+                                                    <?php echo $key; ?>
+                                                </div>
+                                                <!-- the id is what makes the blue progress bar go up -->
+                                                <select class="select-field" id=<?php echo "custom_dropdown_contact_progress_" . $key; ?> style="margin-bottom: 0px">
+                                                <?php
+                                                $progress = 0;
+                                                $times = 0;
+                                                //this section fills the drop down with the data
+                                                foreach ($value as $s_key => $s_value){
+                                                        if ( isset( $contact["custom_dropdown_contact_progress_" . $key]["key"] ) ) {
+                                                            if ( $contact["custom_dropdown_contact_progress_" . $key]["key"] === $s_value ) {
+                                                                $progress = $times;
+                                                                ?>
+                                                                <option value="<?php echo $s_value ?>" selected><?php echo $s_value; ?></option>
+                                                            <?php }
+                                                            else{
+                                                                ?>
+                                                                <option value="<?php echo $s_value ?>"><?php echo $s_value; ?></option>
+                                                            <?php }
+                                                        } else { ?>
+                                                                <option value="<?php echo $s_value ?>"><?php echo $s_value; ?></option>
+                                                            <?php }
+                                                        $times += 1;
+                                                }
+                                                /*
+                                                $keys = array_keys( $contact_fields["seeker_path"]["default"] );
+                                                $path_index = array_search( $contact["seeker_path"]["key"], $keys ) ?? 0;
+                                                $percentage = $path_index / ( sizeof( $keys ) -1 ) *100
+                                                */
+                                                //the keys
+                                                $keys = array_keys( $value );
+                                                $path_index = array_search( $contact["custom_dropdown_contact_progress_" . $key]["key"], $keys ) ?? 0;
+                                                $percentage = ($progress/(sizeof($keys)-1)) *100
+                                                ?>
+                                                </select>
+                                                <!--
+                                                <div class="progress" role="progressbar" tabindex="0" aria-valuenow="<?php echo 4 ?>" aria-valuemin="0" aria-valuetext="50 percent" aria-valuemax="100">
+                                                    <div id="seeker-progress" class="progress-meter" style="width: <?php echo esc_html( $percentage ) ?>%"></div>
+                                                </div>-->
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
 
                                 </div>
                             </section>

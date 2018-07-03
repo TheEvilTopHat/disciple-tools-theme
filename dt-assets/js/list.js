@@ -184,9 +184,9 @@
       <td class="show-for-small-only">
         <a href="<%- permalink %>"><%- post_title %></a>
         <br>
-        <%- status %> <%- type %> <%- member_count %> 
-        <%- locations.join(", ") %> 
-        <%= leader_links %> 
+        <%- status %> <%- type %> <%- member_count %>
+        <%- locations.join(", ") %>
+        <%= leader_links %>
       </td>
       <td class="hide-for-small-only"><a href="<%- permalink %>"><%- post_title %></a></td>
       <td class="hide-for-small-only"><span class="group-status group-status--<%- group_status %>"><%- status %></span></td>
@@ -363,6 +363,7 @@
   })
 
   //create new custom filter from modal
+  //where it stores filters
   let selectedFilters = $("#selected-filters")
   $("#confirm-filter-contacts").on("click", function () {
     let searchQuery = getSearchQuery()
@@ -862,12 +863,30 @@
   //watch milestone checkboxes
   $(".milestone-filter").on("click", function () {
     let field = $(this).val()
+    alert(field)
     let name = _.get(wpApiListSettings, `custom_fields_settings.${field}.name`) || ""
     if ($(this).is(":checked")){
       newFilterLabels.push({id:field, name:name, field:"faith_milestones"})
       selectedFilters.append(`<span class="current-filter faith_milestones" id="${field}">${name}</span>`)
     } else {
       $(`#${field}.faith_milestones`).remove()
+      _.pullAllBy(newFilterLabels, [{id:field}], "id")
+    }
+  })
+
+  //watch csutom milestone checkboxes
+  $(".custom-path-filter").on("click", function () {
+    let field = $(this).val()
+    alert(field)
+    let dict = "custom_dropdown_contact_progress_" + $(this).attr("dict")
+    alert(dict)
+    alert(wpApiListSettings.custom_fields_settings.custom_dropdown_contact_progress.name)
+    let name = _.get(wpApiListSettings, `custom_fields_settings.${dict}.default.${field}`) || $(this).attr("name");
+    if ($(this).is(":checked")){
+      newFilterLabels.push({id:dict, name:field, field:`faith_milestones`})
+      selectedFilters.append(`<span class="current-filter custom_path" id="${field}">${name}</span>`)
+    } else {
+      $(`#${field}.custom_path`).remove()
       _.pullAllBy(newFilterLabels, [{id:field}], "id")
     }
   })

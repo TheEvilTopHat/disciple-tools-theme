@@ -226,12 +226,14 @@ class Disciple_Tools_Hook_Posts extends Disciple_Tools_Hook_Base {
                 $object_note = 'Added ' . $this->_key_name( $meta_key, $fields ) . ': ' . $this->_value_name( $meta_key, $meta_value, $fields );
             } else if ($deleted){
                 $object_note = $this->_key_name( $meta_key, $fields ) . ' "' . $this->_value_name( $meta_key, $prev_value, $fields ) . '" deleted ';
-            } else {
-                $object_note = $this->_key_name( $meta_key, $fields ) . ' changed '  .
-                    ( isset( $prev_value ) ? 'from "' . $this->_value_name( $meta_key, $prev_value, $fields ) .'"' : '' ) .
-                    ' to "' . $this->_value_name( $meta_key, $meta_value, $fields ) . '"';
-
+            } else if (gettype ($this->_value_name( $meta_key, $meta_value, $fields )) == "array" ){
+                $object_note = "array  changed";
             }
+            else {
+                    $object_note = $this->_key_name( $meta_key, $fields ) . ' changed '  .
+                        ( isset( $prev_value ) ? 'from "' . $this->_value_name( $meta_key, $prev_value, $fields ) .'"' : '' ) .
+                        ' to "' . $this->_value_name( $meta_key, $meta_value, $fields ) . '"';
+                }
         }
 
         if ( $deleted ){

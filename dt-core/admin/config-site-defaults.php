@@ -403,7 +403,23 @@ function dt_get_site_custom_lists( string $list_title = null )
 {
     $fields = [];
 
-    $fields['version'] = '2.5';
+    $fields['version'] = '3.0';
+
+    //custom contact progress
+    $fields['custom_dropdown_contact_progress'] = [
+        'sader'   => [
+            'one'   => __( 'Contact Attempted' ),
+            'two'   => __( 'Contact' ),
+            ],
+        'custom'   => [
+                'one'   => __( 'Contact Attempted' ),
+                'two'   => __( 'Contact' ),
+        ],
+        'other'   => [
+            '1'   => __( 'Contact Attempted' ),
+            '41'   => __( 'Contact' ),
+        ],
+    ];
 
     //custom fields
     $fields['seeker_path'] = [

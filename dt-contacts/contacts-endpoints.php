@@ -397,12 +397,14 @@ class Disciple_Tools_Contacts_Endpoints
                     $contact_array[ $meta_key ] = $this->yes_no_to_boolean( $meta_value[0] );
                 } elseif ( $meta_key == 'last_modified' ) {
                     $contact_array[ $meta_key ] = (int) $meta_value[0];
+                } else {
+                    $contact_array[ $meta_key ] = $meta_value[0] ? $meta_value[0] : "none";
                 }
             }
 
             $user_id = get_current_user_id();
             if ( isset( $contact_array["overall_status"] ) && isset( $contact_array["assigned_to"]["id"] ) &&
-                 $contact_array["overall_status"] === "assigned" && $contact_array["assigned_to"]["id"] == $user_id){
+                $contact_array["overall_status"] === "assigned" && $contact_array["assigned_to"]["id"] == $user_id){
                 $contact_array["requires_update"] = true;
             }
             $rv[] = $contact_array;
