@@ -526,8 +526,8 @@ declare( strict_types=1 );
                                 </div>
 
                             </section>
-
-                            <?php
+                            
+                           <?php
                             $sections = apply_filters( 'dt_details_additional_section_ids', [], "contacts" );
 
                             foreach ( $sections as $section ){
@@ -545,6 +545,113 @@ declare( strict_types=1 );
                         </div>
                     </div>
                 </div>
+
+             <?php
+                            //get custom tiles
+                            $custom_sections = dt_get_option( 'dt_site_custom_lists' );
+                            $tiles = $custom_sections["custom_tile"];
+                            foreach ( $tiles as $tile ) {
+
+                            ?>
+                            <section id="custom-tile" class="xlarge-6 large-12 medium-6 cell grid-item">
+                                <div class="bordered-box">
+                                    <!-- custom title -->
+                                    <label class="section-header"><?php esc_html_e( 'Custom', 'disciple_tools' )?>
+                                    </label>
+
+                                    <?php 
+                                    //for each section decide which one to make
+                                    //first get all the seeker paths
+                                    foreach ($tile as $name => $seeker_path) {
+                                        ?>
+
+                                        <select class="select-field" id="custom_tile_<?php echo $name ?>" style="margin-bottom: 0px">
+                                        <?php
+                                        foreach ($seeker_path as $key => $value){
+                                            echo var_dump($contact["custom_tile_".$name]);
+                                            if ( $contact["custom_tile_".$name]["key"] === $key ) {
+                                                ?>
+                                                <option value="<?php echo esc_html( $key ) ?>" selected><?php echo esc_html( $value ); ?></option>
+                                            <?php } else { ?>
+                                                <option value="<?php echo esc_html( $key ) ?>"><?php echo esc_html( $value ); ?></option>
+                                            <?php }
+                                        }
+                                    }
+                                    ?>
+                                    </select>
+
+                                    <!-- all the custom faith milestones -->
+                                    <div class="section-subheader">
+                                        <?php esc_html_e( 'Faith Milestones', 'disciple_tools' )?>
+                                        <button class="help-button" data-section="faith-milestones-help-text">
+                                            <img class="help-icon" src="<?php echo esc_html( get_template_directory_uri() . '/dt-assets/images/help.svg' ) ?>"/>
+                                        </button>
+                                    </div>
+                                    <div class="small button-group" style="display: inline-block">
+
+                                        <?php foreach ( $contact_fields as $field => $val ): ?>
+                                            <?php
+                                            if (strpos( $field, "milestone_" ) === 0) {
+                                                $class = ( isset( $contact[ $field ] ) && $contact[ $field ]['key'] === 'yes' ) ?
+                                                    "selected-select-button" : "empty-select-button";
+                                                ?>
+                                                <button onclick="save_seeker_milestones( <?php echo esc_html( get_the_ID() ) ?> , '<?php echo esc_html( $field ) ?>')"
+                                                        id="<?php echo esc_html( $field ) ?>"
+                                                        class="<?php echo esc_html( $class ) ?> select-button button ">
+                                                    <?php echo esc_html( $contact_fields[ $field ]["name"] ) ?>
+                                                </button>
+                                            <?php }?>
+                                        <?php endforeach; ?>
+                                    </div>
+
+                                    <div class="baptism_date">
+                                        <div class="section-subheader"><?php esc_html_e( 'Baptism Date', 'disciple_tools' )?></div>
+                                        <div class="baptism_date">
+                                            <input type="text" data-date-format='yy-mm-dd' value="<?php echo esc_html( $contact["baptism_date"] ?? '' )?>" id="baptism-date-picker">
+                                        </div>
+                                    </div>
+
+                                    <!-- custom sections -->
+                                    <?php $custom_sections = dt_get_option( 'dt_site_custom_lists' );
+                                    $custom_sections = $custom_sections["custom_dropdown_contact_options"];
+                                    foreach ( $custom_sections as $key => $value ) :
+                                        ?>
+                                            <div class="custom_progress">
+                                                <!-- drop down section -->
+                                                <div class="section-subheader">
+                                                    <?php echo esc_html( $value["label"] ); ?>
+                                                </div>
+                                                <!-- the id is what makes the blue progress bar go up -->
+                                                <select class="select-field" id=<?php echo esc_html( "custom_dropdown_contact_" . $key ); ?> style="margin-bottom: 0px">
+                                                <?php
+                                                //this section fills the drop down with the data
+                                                foreach ($value as $s_key => $s_value){
+                                                    if ($s_key != "label") {
+                                                        if ( isset( $contact["custom_dropdown_contact_" . $key]["key"] ) ) {
+                                                            if ( $contact["custom_dropdown_contact_" . $key]["key"] === $s_value ) {
+                                                                ?>
+                                                                <option value="<?php echo esc_html( $s_value ) ?>" selected><?php echo esc_html( $s_value ); ?></option>
+                                                            <?php }
+                                                            else {
+                                                                ?>
+                                                                <option value="<?php echo esc_html( $s_value ) ?>"><?php echo esc_html( $s_value ); ?></option>
+                                                            <?php }
+                                                        } else { ?>
+                                                                <option value="<?php echo esc_html( $s_value ) ?>"><?php echo esc_html( $s_value ); ?></option>
+                                                            <?php }
+                                                    }
+                                                }
+                                                ?>
+                                                </select>
+                                            </div>
+                                    <?php endforeach; ?>
+
+                                </div>
+                            </section>
+                            <?php
+
+                                            }
+                            ?>    
             </main> <!-- end #main -->
 
             <aside class="auto cell grid-x">

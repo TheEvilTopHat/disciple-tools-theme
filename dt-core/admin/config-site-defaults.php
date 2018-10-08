@@ -401,7 +401,7 @@ function dt_get_site_options_defaults() {
 function dt_get_site_custom_lists( string $list_title = null ) {
     $fields = [];
 
-    $fields['version'] = 7;
+    $fields['version'] = 13;
     //custom fields
     $fields['custom_dropdown_contact_options'] = [];
     $fields['seeker_path'] = [
@@ -415,6 +415,18 @@ function dt_get_site_custom_lists( string $list_title = null ) {
     ];
     $fields['custom_milestones'] = [];
     $fields['custom_church'] = [];
+    $fields['custom_tile'] = 
+        [
+            [
+                //seeker first
+                'seeker_path1' => ['first'        => __( 'First' ),
+                                  'secound'   => __( 'Secound' ),],
+                'seeker_path2' => ['first'        => __( 'ttt' ),
+                                  'secound'   => __( 'Secound' ),],
+                //drop down secound
+                //'custom_dropdown_contact_options' => [],
+            ],
+        ];
     $fields['custom_reason_closed'] = [
         'none'                 => '',
         'duplicate'            => __( 'Duplicate', 'disciple_tools' ),

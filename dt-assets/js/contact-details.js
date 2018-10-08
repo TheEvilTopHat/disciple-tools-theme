@@ -67,6 +67,11 @@ function updateCriticalPath(key) {
   $('#seeker-progress').css("width", `${percentage}%`)
 }
 
+function updateCriticalCustomPath(key) {
+  $('#seeker_path_custom').val(key)
+  let seekerPathKeys = _.keys(contactsDetailsWpApiSettings.contacts_custom_fields_settings.seeker_path_custom.key)
+}
+
 function contactUpdated(updateNeeded) {
   $('.update-needed-notification').toggle(updateNeeded)
   $('#update-needed').prop("checked", updateNeeded)
@@ -704,7 +709,12 @@ jQuery(document).ready(function($) {
       if (id === 'seeker_path') {
         updateCriticalPath(contactResponse.seeker_path.key)
         refresh_quick_action_buttons(contactResponse)
-      } else if (id === 'reason_unassignable') {
+      }
+      if (id === 'seeker_path_custom') {
+        updateCriticalCustomPath(contactResponse.seeker_path_custom.key)
+        refresh_quick_action_buttons(contactResponse)
+      }
+       else if (id === 'reason_unassignable') {
         setStatus(contactResponse)
       } else if (id === 'overall_status') {
         setStatus(contactResponse, true)

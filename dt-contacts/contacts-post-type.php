@@ -933,6 +933,25 @@ class Disciple_Tools_Contact_Post_Type
         }
 
 
+        $custom_contact_fields = dt_get_option( 'dt_site_custom_lists' );
+        $custom_contact_fields = $custom_contact_fields["custom_tile"];
+        if ( ! empty( $custom_contact_fields ) ) {
+            foreach( $custom_contact_fields as $tile => $values ){
+            foreach ( $values as $key => $value ){
+                //check for type of tile
+                $fields["custom_tile_".$key] = [
+                    'name'        => __( 'seeker path custom', 'disciple_tools' ),
+                    'description' => '',
+                    'type'        => 'key_select',
+                    'default'     => [],
+                    'section'     => 'misc',
+                ];
+            }
+        }
+    }
+
+
+
         foreach ($custom_lists["custom_dropdown_contact_options"] as $k => $v ){
             $fields["custom_dropdown_contact_".$k] = [
                 'name'        => $k,
